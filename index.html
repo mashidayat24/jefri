@@ -2722,7 +2722,7 @@
             renderReservations();
             
             // Simpan data ke Local Storage secara berkala (setiap 30 detik)
-            setInterval(saveToLocalStorage, 30000);
+            setInterval(saveToLocalStorage, 90000);
             
             // Simpan data saat pengguna meninggalkan halaman
             window.addEventListener('beforeunload', saveToLocalStorage);
