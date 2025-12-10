@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yefri kurnianjal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #90EE90 0%, #87CEEB 50%, #98FB98 100%);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #2c3e50;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+            color: #34495e;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 90px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #d4af37;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .card.expanded {
+            border-color: #b8860b;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .date-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-label {
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        .trip-date {
+            color: #2c80ff;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .invoice-no {
+            background: #f0f5ff;
+            color: #2c80ff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #cce0ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .invoice-no:hover {
+            background: #e1ecff;
+            transform: scale(1.05);
+        }
+
+        .customer-info {
+            margin-bottom: 15px;
+        }
+
+        .customer-name {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .address {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #eaeaea;
+        }
+
+        .booking-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-label {
+            color: #777;
+            font-size: 0.8rem;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .payment-status.paid {
+            background: #e8f7ef;
+            color: #27ae60;
+        }
+
+        .payment-status.partial {
+            background: #fff8e1;
+            color: #f39c12;
+        }
+
+        .payment-status.unpaid {
+            background: #ffeaea;
+            color: #e74c3c;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .payment-status.paid .status-dot {
+            background: #27ae60;
+        }
+
+        .payment-status.partial .status-dot {
+            background: #f39c12;
+        }
+
+        .payment-status.unpaid .status-dot {
+            background: #e74c3c;
+        }
+
+        .card-details {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .card.expanded .card-details {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            color: #555;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .item-list {
+            margin-top: 10px;
+        }
+
+        .item-header {
+            display: grid;
+            grid-template-columns: 40px 1fr 100px;
+            color: #777;
+            font-size: 0.8rem;
+            padding: 0 10px 8px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 100px;
+            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 0.9rem;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-price {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-detail {
+            background: #f0f5ff;
+            color: #2c80ff;
+            border: 1px solid #cce0ff;
+        }
+
+        .btn-detail:hover {
+            background: #e1ecff;
+        }
+
+        .btn-edit {
+            background: #fff8e1;
+            color: #f39c12;
+            border: 1px solid #ffeaa7;
+        }
+
+        .btn-edit:hover {
+            background: #ffecb3;
+        }
+
+        .btn-delete {
+            background: #ffeaea;
+            color: #e74c3c;
+            border: 1px solid #ffc9c9;
+        }
+
+        .btn-delete:hover {
+            background: #ffd6d6;
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #90EE90 0%, #87CEEB 50%, #98FB98 100%);
+            border: none;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(144, 238, 144, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1000;
+        }
+
+        #addButton {
+            right: 25px;
+        }
+
+        #reportButton {
+            right: 100px;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(144, 238, 144, 0.5);
+        }
+
+        .back-btn {
+            background: #90EE90;
+            color: #2c3e50;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: #7cda7c;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #90EE90;
+            box-shadow: 0 0 0 3px rgba(144, 238, 144, 0.1);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .item-inputs {
+            display: grid;
+            grid-template-columns: 1fr 120px 80px;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .add-item-btn {
+            background: #90EE90;
+            color: #2c3e50;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        .add-item-btn:hover {
+            background: #7cda7c;
+        }
+
+        .remove-item-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .remove-item-btn:hover {
+            background: #c0392b;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e5e5;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #90EE90 0%, #87CEEB 50%, #98FB98 100%);
+            color: #2c3e50;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(144, 238, 144, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+            font-size: 1.1rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        .invoice-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #d4af37;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .invoice-logo-container {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .invoice-logo {
+            max-height: 80px;
+            margin-right: 20px;
+        }
+
+        .invoice-title-container {
+            flex: 1;
+        }
+
+        .invoice-title {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .invoice-subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .invoice-header-info {
+            text-align: right;
+            min-width: 200px;
+        }
+
+        .invoice-number {
+            color: #2c80ff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .invoice-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .invoice-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .invoice-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .invoice-info-title {
+            color: #2c80ff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .invoice-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 12px;
+        }
+
+        .invoice-info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .invoice-info-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 11px;
+        }
+
+        .invoice-table th {
+            background: #f8f9fa;
+            color: #555;
+            font-weight: 600;
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .invoice-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-table .text-right {
+            text-align: right;
+        }
+
+        .invoice-table .text-center {
+            text-align: center;
+        }
+
+        .invoice-total {
+            margin-top: 25px;
+            padding: 20px;
+            border-top: 2px solid #ddd;
+            font-size: 12px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.85) 100%);
+        }
+
+        .total-background-logo {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.15;
+            z-index: 0;
+            max-width: 200px;
+            max-height: 150px;
+            pointer-events: none;
+        }
+
+        .total-background-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .total-row.total {
+            font-weight: 700;
+            font-size: 14px;
+            color: #2c3e50;
+            border-top: 2px solid #ddd;
+            margin-top: 8px;
+            padding-top: 10px;
+        }
+
+        .invoice-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        .invoice-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .invoice-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .invoice-btn.print {
+            background: #90EE90;
+            color: #2c3e50;
+        }
+
+        .invoice-btn.print:hover {
+            background: #7cda7c;
+        }
+
+        .invoice-btn.image {
+            background: #2c80ff;
+            color: white;
+        }
+
+        .invoice-btn.image:hover {
+            background: #1a6fe0;
+        }
+
+        .invoice-btn.dayeng {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
+        }
+
+        .invoice-btn.dayeng:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #ff9800 100%);
+            transform: translateY(-2px);
+        }
+
+        .invoice-btn.default {
+            background: linear-gradient(135deg, #90EE90 0%, #87CEEB 100%);
+            color: #2c3e50;
+        }
+
+        .invoice-btn.default:hover {
+            background: linear-gradient(135deg, #7cda7c 0%, #76c7ec 100%);
+            transform: translateY(-2px);
+        }
+
+        .invoice-print {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 20mm;
+            font-family: 'Poppins', sans-serif;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .invoice-print .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .invoice-print .invoice-logo-container {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .invoice-print .invoice-logo {
+            max-height: 60px;
+            margin-right: 15px;
+        }
+
+        .invoice-print .invoice-title-container {
+            flex: 1;
+        }
+
+        .invoice-print .invoice-title {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .invoice-print .invoice-subtitle {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .invoice-print .invoice-header-info {
+            text-align: right;
+            min-width: 180px;
+        }
+
+        .invoice-print .invoice-number {
+            color: #2c80ff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .invoice-print .invoice-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .invoice-print .invoice-total {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 2px solid #ddd;
+            font-size: 11px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.85) 100%);
+        }
+
+        .invoice-print .total-background-logo {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.15;
+            z-index: 0;
+            max-width: 150px;
+            max-height: 120px;
+            pointer-events: none;
+        }
+
+        .invoice-print .total-row {
+            position: relative;
+            z-index: 1;
+        }
+
+        .invoice-print .invoice-footer {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 9px;
+            line-height: 1.2;
+        }
+        
+        .hide-during-screenshot {
+            display: none !important;
+        }
+
+        .report-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            border: 2px solid #d4af37;
+        }
+
+        .report-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .report-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .report-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .report-table th {
+            background: linear-gradient(135deg, #90EE90 0%, #87CEEB 50%, #98FB98 100%);
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .report-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .report-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .report-table .text-right {
+            text-align: right;
+        }
+
+        .report-table .text-center {
+            text-align: center;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .report-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .report-btn.edit {
+            background: #fff8e1;
+            color: #f39c12;
+            border: 1px solid #ffeaa7;
+        }
+
+        .report-btn.edit:hover {
+            background: #ffecb3;
+        }
+
+        .report-btn.delete {
+            background: #ffeaea;
+            color: #e74c3c;
+            border: 1px solid #ffc9c9;
+        }
+
+        .report-btn.delete:hover {
+            background: #ffd6d6;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+                bottom: 20px;
+            }
+            
+            #addButton {
+                right: 20px;
+            }
+            
+            #reportButton {
+                right: 90px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .item-inputs {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .info-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .booking-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .card-actions {
+                flex-direction: row;
+            }
+            
+            .action-btn {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+            
+            .action-btn i {
+                font-size: 0.9rem;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .invoice-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .invoice-container, .report-container {
+                padding: 20px;
+            }
+            
+            .invoice-table, .report-table {
+                font-size: 0.9rem;
+            }
+            
+            .invoice-table th,
+            .invoice-table td,
+            .report-table th,
+            .report-table td {
+                padding: 6px 8px;
+            }
+            
+            .invoice-actions {
+                flex-direction: column;
+            }
+            
+            .invoice-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .invoice-footer-logo {
+                order: 2;
+                margin-top: 20px;
+                flex: 0 0 auto;
+            }
+            
+            .invoice-payment-info {
+                order: 1;
+            }
+            
+            .report-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .invoice-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .invoice-header-info {
+                text-align: left;
+                width: 100%;
+            }
+            
+            .invoice-print .invoice-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .invoice-print .invoice-header-info {
+                text-align: left;
+                width: 100%;
+            }
+            
+            .total-background-logo {
+                max-width: 150px;
+                max-height: 100px;
+                opacity: 0.1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .customer-name {
+                font-size: 1.3rem;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .invoice-no {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .card-actions {
+                flex-direction: row;
+            }
+            
+            .action-btn span {
+                display: inline;
+                font-size: 0.75rem;
+            }
+            
+            .action-btn i {
+                font-size: 0.9rem;
+            }
+            
+            .invoice-logo {
+                max-height: 60px;
+                margin-right: 10px;
+            }
+            
+            .invoice-title {
+                font-size: 20px;
+            }
+            
+            .invoice-subtitle {
+                font-size: 12px;
+            }
+            
+            .total-background-logo {
+                max-width: 120px;
+                max-height: 80px;
+                opacity: 0.08;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .invoice-print, .invoice-print * {
+                visibility: visible;
+            }
+            
+            .invoice-print {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                box-shadow: none;
+                border: none;
+            }
+            
+            .invoice-actions {
+                display: none;
+            }
+            
+            .back-btn {
+                display: none;
+            }
+            
+            header {
+                display: none;
+            }
+            
+            .floating-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header id="mainHeader">
+            <h1>Wisata Dieng</h1>
+            <p class="subtitle">Sistem manajemen reservasi<br>Yefri Kurnianjal</p>
+        </header>
+
+        <button class="back-btn" id="backButton" style="display: none;">
+            <i class="fas fa-arrow-left"></i> Kembali ke Daftar Reservasi
+        </button>
+
+        <div class="cards-container" id="cardsContainer">
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <p>Belum ada reservasi. Klik tombol "+" di bawah untuk menambahkan reservasi baru.</p>
+            </div>
+        </div>
+
+        <div class="invoice-container" id="invoiceContainer" style="display: none;"></div>
+        
+        <div class="report-container" id="reportContainer" style="display: none;"></div>
+        
+        <div id="printInvoiceContainer" style="display: none;"></div>
+        
+        <button class="floating-btn" id="addButton">
+            <i class="fas fa-plus"></i>
+        </button>
+        
+        <button class="floating-btn" id="reportButton" style="display: flex;">
+            <i class="fas fa-chart-bar"></i>
+        </button>
+        
+        <div class="modal" id="addModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">Tambah Reservasi Baru</h2>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                
+                <form id="reservationForm">
+                    <input type="hidden" id="reservationIndex" value="-1">
+                    
+                    <div class="form-group">
+                        <label class="form-label">No. Invoice</label>
+                        <input type="text" class="form-input" id="invoiceNo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nama Pemesan</label>
+                        <input type="text" class="form-input" id="customerName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Alamat</label>
+                        <input type="text" class="form-input" id="customerAddress" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Pelaksanaan</label>
+                        <input type="date" class="form-input" id="tripDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nama Penerima (Yefri Kurniawan)</label>
+                        <input type="text" class="form-input" id="recipientName" value="Yefri Kurniawan" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Deskripsi Pemesanan</label>
+                        <div id="itemsContainer">
+                            <div class="item-inputs">
+                                <input type="text" class="form-input item-desc" placeholder="Deskripsi item">
+                                <input type="text" class="form-input item-price currency-input" placeholder="Harga" inputmode="numeric">
+                                <button type="button" class="remove-item-btn">Hapus</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-item-btn" id="addItemBtn">Tambah Item</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Down Payment (DP)</label>
+                        <input type="text" class="form-input currency-input" id="downPayment" placeholder="0" inputmode="numeric" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Pilihan Pelunasan</label>
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" id="fullPayment" name="paymentType" value="full" checked>
+                                <label for="fullPayment">Pelunasan Penuh</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="partialPayment" name="paymentType" value="partial">
+                                <label for="partialPayment">Pelunasan Sebagian</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="fullPaymentGroup">
+                        <label class="form-label">Jumlah Pelunasan</label>
+                        <input type="text" class="form-input currency-input" id="fullPaymentAmount" placeholder="0" inputmode="numeric">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tanggal Transfer</label>
+                        <input type="date" class="form-input" id="transferDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nama Bank</label>
+                        <select class="form-input" id="bankName" required>
+                            <option value="">Pilih Bank</option>
+                            <option value="BCA">BCA</option>
+                            <option value="DANA">DANA</option>
+                            <option value="BRI">BRI</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nomor Rekening</label>
+                        <input type="text" class="form-input" id="accountNumber" required>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-cancel" id="cancelBtn">Batal</button>
+                        <button type="submit" class="btn btn-submit">Simpan Reservasi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEYS = {
+            RESERVATIONS: 'wisata_dieng_reservations',
+            ALL_TRANSACTIONS: 'wisata_dieng_all_transactions',
+            INVOICE_THEME: 'wisata_dieng_invoice_theme'
+        };
+
+        let reservations = [];
+        let allTransactions = [];
+        let currentInvoiceTheme = 'default';
+
+        let currentSort = 'tripDate';
+        let expandedCardIndex = -1;
+        let currentView = 'cards';
+        let currentInvoiceIndex = -1;
+
+        const cardsContainer = document.getElementById('cardsContainer');
+        const emptyState = document.getElementById('emptyState');
+        const addButton = document.getElementById('addButton');
+        const reportButton = document.getElementById('reportButton');
+        const addModal = document.getElementById('addModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const reservationForm = document.getElementById('reservationForm');
+        const itemsContainer = document.getElementById('itemsContainer');
+        const addItemBtn = document.getElementById('addItemBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const reservationIndexInput = document.getElementById('reservationIndex');
+        const fullPaymentRadio = document.getElementById('fullPayment');
+        const partialPaymentRadio = document.getElementById('partialPayment');
+        const fullPaymentAmountInput = document.getElementById('fullPaymentAmount');
+        const fullPaymentGroup = document.getElementById('fullPaymentGroup');
+        const invoiceNoInput = document.getElementById('invoiceNo');
+        const bankNameSelect = document.getElementById('bankName');
+        const accountNumberInput = document.getElementById('accountNumber');
+        const recipientNameInput = document.getElementById('recipientName');
+        const downPaymentInput = document.getElementById('downPayment');
+        const mainHeader = document.getElementById('mainHeader');
+        const backButton = document.getElementById('backButton');
+        const invoiceContainer = document.getElementById('invoiceContainer');
+        const reportContainer = document.getElementById('reportContainer');
+        const printInvoiceContainer = document.getElementById('printInvoiceContainer');
+
+        const bankAccounts = {
+            'BCA': '1234567890',
+            'DANA': '087654321456',
+            'BRI': '081234566'
+        };
+
+        function getInvoiceLogo() {
+            if (currentInvoiceTheme === 'dayeng') {
+                return 'https://iili.io/fRBytWB.jpg';
+            } else {
+                return 'https://iili.io/fRByDiP.jpg';
+            }
+        }
+
+        function getFooterLogo() {
+            return 'https://iili.io/fRByp0F.jpg';
+        }
+
+        function getInvoiceSubtitle() {
+            if (currentInvoiceTheme === 'dayeng') {
+                return 'PT Dieng Dayeng Explorindo - Reservasi Pemesanan';
+            } else {
+                return 'Wisata Dieng - Reservasi Pemesanan';
+            }
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+                localStorage.setItem(STORAGE_KEYS.ALL_TRANSACTIONS, JSON.stringify(allTransactions));
+                localStorage.setItem(STORAGE_KEYS.INVOICE_THEME, currentInvoiceTheme);
+                console.log('Data berhasil disimpan ke Local Storage');
+            } catch (error) {
+                console.error('Error menyimpan data ke Local Storage:', error);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const savedReservations = localStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+                const savedAllTransactions = localStorage.getItem(STORAGE_KEYS.ALL_TRANSACTIONS);
+                const savedInvoiceTheme = localStorage.getItem(STORAGE_KEYS.INVOICE_THEME);
+                
+                if (savedReservations) {
+                    reservations = JSON.parse(savedReservations);
+                } else {
+                    resetToExampleData();
+                }
+                
+                if (savedAllTransactions) {
+                    allTransactions = JSON.parse(savedAllTransactions);
+                } else {
+                    allTransactions = [...reservations];
+                }
+                
+                if (savedInvoiceTheme) {
+                    currentInvoiceTheme = savedInvoiceTheme;
+                }
+                
+                console.log('Data berhasil dimuat dari Local Storage');
+                console.log('Reservasi aktif:', reservations.length);
+                console.log('Total transaksi:', allTransactions.length);
+                console.log('Invoice theme:', currentInvoiceTheme);
+            } catch (error) {
+                console.error('Error memuat data dari Local Storage:', error);
+                resetToExampleData();
+            }
+        }
+
+        function resetToExampleData() {
+            reservations = [
+                {
+                    tripDate: "2023-11-15",
+                    bookingDate: "2023-10-10",
+                    customerName: "THE BULL EGGS",
+                    customerAddress: "PATAK BANTENG KEJAJAR, RT 11, RW 6, PATAKBANTENG, KEJAJAR",
+                    invoiceNo: "INV-001",
+                    items: [
+                        { description: "Paket Wisata Dieng 2D1N", price: 1200000 },
+                        { description: "Transportasi", price: 500000 },
+                        { description: "Makan 3x", price: 300000 }
+                    ],
+                    downPayment: 1000000,
+                    fullPayment: 1000000,
+                    recipientName: "Yefri Kurniawan",
+                    transferDate: "2023-10-12",
+                    bankName: "BCA",
+                    accountNumber: "1234567890"
+                },
+                {
+                    tripDate: "2023-12-05",
+                    bookingDate: "2023-10-05",
+                    customerName: "SUGENG",
+                    customerAddress: "SERANG SARI, RT 4, RW 5, SERANG, KEJAJAR",
+                    invoiceNo: "INV-002",
+                    items: [
+                        { description: "Paket Wisata Dieng 3D2N", price: 1800000 },
+                        { description: "Transportasi AC", price: 800000 },
+                        { description: "Makan 5x", price: 400000 }
+                    ],
+                    downPayment: 1500000,
+                    fullPayment: 1500000,
+                    recipientName: "Yefri Kurniawan",
+                    transferDate: "2023-10-08",
+                    bankName: "DANA",
+                    accountNumber: "087654321456"
+                },
+                {
+                    tripDate: "2023-10-25",
+                    bookingDate: "2023-09-20",
+                    customerName: "SUWARDI ABDULAH",
+                    customerAddress: "KAUMAN, RT 3, RW 6, KEJAJAR, KEJAJAR",
+                    invoiceNo: "INV-003",
+                    items: [
+                        { description: "Paket Wisata Dieng 2D1N", price: 1200000 },
+                        { description: "Transportasi", price: 500000 },
+                        { description: "Guide Lokal", price: 200000 }
+                    ],
+                    downPayment: 1000000,
+                    fullPayment: 900000,
+                    recipientName: "Yefri Kurniawan",
+                    transferDate: "2023-09-25",
+                    bankName: "BRI",
+                    accountNumber: "081234566"
+                }
+            ];
+            allTransactions = [...reservations];
+            currentInvoiceTheme = 'default';
+            saveToLocalStorage();
+        }
+
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function parseNumberFromFormatted(formattedNumber) {
+            if (!formattedNumber) return 0;
+            return parseInt(formattedNumber.toString().replace(/\./g, '')) || 0;
+        }
+
+        function formatCurrencyInputElement(input) {
+            const raw = input.value.replace(/\D/g, '');
+            if (!raw) {
+                input.value = '';
+                return;
+            }
+            const number = parseInt(raw, 10);
+            input.value = formatNumberWithCommas(number);
+        }
+
+        document.addEventListener('input', function(e) {
+            if (e.target.classList && e.target.classList.contains('currency-input')) {
+                formatCurrencyInputElement(e.target);
+            }
+        });
+
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        function formatDateShort(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        function calculateTotal(items) {
+            return items.reduce((total, item) => total + item.price, 0);
+        }
+
+        function getPaymentStatus(downPayment, fullPayment, total) {
+            const totalPaid = downPayment + (fullPayment || 0);
+            
+            if (totalPaid >= total) {
+                return { status: 'paid', text: 'LUNAS' };
+            } else if (totalPaid > 0) {
+                return { status: 'partial', text: 'SEBAGIAN' };
+            } else {
+                return { status: 'unpaid', text: 'BELUM BAYAR' };
+            }
+        }
+
+        function calculateShortage(downPayment, fullPayment, total) {
+            const totalPaid = downPayment + (fullPayment || 0);
+            const shortage = total - totalPaid;
+            return shortage > 0 ? shortage : 0;
+        }
+
+        function generateInvoiceNo() {
+            const count = allTransactions.length + 1;
+            return `INV-${count.toString().padStart(3, '0')}`;
+        }
+
+        function sortReservations() {
+            reservations.sort((a, b) => new Date(a.tripDate) - new Date(b.tripDate));
+        }
+
+        function renderReservations() {
+            cardsContainer.innerHTML = '';
+            
+            if (reservations.length === 0) {
+                emptyState.style.display = 'block';
+                cardsContainer.appendChild(emptyState);
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            sortReservations();
+            
+            reservations.forEach((reservation, index) => {
+                const total = calculateTotal(reservation.items);
+                const shortage = calculateShortage(reservation.downPayment, reservation.fullPayment, total);
+                const paymentStatus = getPaymentStatus(reservation.downPayment, reservation.fullPayment, total);
+                const isExpanded = index === expandedCardIndex;
+                
+                const card = document.createElement('div');
+                card.className = `card ${isExpanded ? 'expanded' : ''}`;
+                card.setAttribute('data-index', index);
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="date-info">
+                            <div class="date-label">Pelaksanaan</div>
+                            <div class="trip-date">${formatDate(reservation.tripDate)}</div>
+                        </div>
+                        <div class="invoice-no" data-index="${index}">${reservation.invoiceNo}</div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <div class="customer-name">
+                            ${reservation.customerName}
+                        </div>
+                        <div class="address">
+                            ${reservation.customerAddress}
+                        </div>
+                    </div>
+                    
+                    <div class="info-bar">
+                        <div class="booking-info">
+                            <div class="info-item">
+                                <div class="info-label">Tanggal Pemesanan:</div>
+                                <div class="info-value">${formatDate(reservation.bookingDate)}</div>
+                            </div>
+                            <div class="payment-status ${paymentStatus.status}">
+                                <span class="status-dot"></span>
+                                ${paymentStatus.text}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-details">
+                        <div class="detail-section">
+                            <div class="section-title">Informasi Pemesanan</div>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label">No. Invoice</div>
+                                    <div class="detail-value">${reservation.invoiceNo}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Pelaksanaan</div>
+                                    <div class="detail-value">${formatDate(reservation.tripDate)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Tanggal Pemesanan</div>
+                                    <div class="detail-value">${formatDate(reservation.bookingDate)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Total</div>
+                                    <div class="detail-value">${formatRupiah(total)}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <div class="section-title">Rincian Pembayaran</div>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="detail-label">Down Payment (DP)</div>
+                                    <div class="detail-value">${formatRupiah(reservation.downPayment)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Pelunasan</div>
+                                    <div class="detail-value">${reservation.fullPayment ? formatRupiah(reservation.fullPayment) : 'Belum dilunasi'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Kekurangan</div>
+                                    <div class="detail-value">${formatRupiah(shortage)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Nama Penerima</div>
+                                    <div class="detail-value">${reservation.recipientName || 'Yefri Kurniawan'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Tanggal Transfer</div>
+                                    <div class="detail-value">${formatDate(reservation.transferDate)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Bank & No. Rekening</div>
+                                    <div class="detail-value">${reservation.bankName} - ${reservation.accountNumber}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <div class="section-title">Deskripsi Pemesanan</div>
+                            <div class="item-list">
+                                <div class="item-header">
+                                    <div>No</div>
+                                    <div>Deskripsi</div>
+                                    <div class="item-price">Harga</div>
+                                </div>
+                                ${reservation.items.map((item, idx) => `
+                                    <div class="item-row">
+                                        <div>${idx + 1}</div>
+                                        <div>${item.description}</div>
+                                        <div class="item-price">${formatRupiah(item.price)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="action-btn btn-detail toggle-detail" data-index="${index}">
+                            <i class="fas fa-${isExpanded ? 'minus' : 'plus'}"></i>
+                            <span>${isExpanded ? 'Tutup' : 'Lihat'}</span>
+                        </button>
+                        <button class="action-btn btn-edit edit-btn" data-index="${index}">
+                            <i class="fas fa-edit"></i>
+                            <span>Edit</span>
+                        </button>
+                        <button class="action-btn btn-delete delete-btn" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                            <span>Hapus</span>
+                        </button>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(card);
+            });
+            
+            document.querySelectorAll('.toggle-detail').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    
+                    if (expandedCardIndex === index) {
+                        expandedCardIndex = -1;
+                    } else {
+                        expandedCardIndex = index;
+                    }
+                    
+                    renderReservations();
+                });
+            });
+            
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    editReservation(index);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteReservation(index);
+                });
+            });
+            
+            document.querySelectorAll('.invoice-no').forEach(badge => {
+                badge.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    showInvoice(index);
+                });
+            });
+        }
+
+        function showReport() {
+            currentView = 'report';
+            
+            cardsContainer.style.display = 'none';
+            mainHeader.style.display = 'none';
+            invoiceContainer.style.display = 'none';
+            reportContainer.style.display = 'block';
+            backButton.style.display = 'flex';
+            addButton.style.display = 'none';
+            reportButton.style.display = 'none';
+            
+            const totalDP = allTransactions.reduce((sum, trans) => sum + trans.downPayment, 0);
+            const totalPelunasan = allTransactions.reduce((sum, trans) => sum + (trans.fullPayment || 0), 0);
+            const totalJumlah = allTransactions.reduce((sum, trans) => {
+                const totalItems = calculateTotal(trans.items);
+                return sum + totalItems;
+            }, 0);
+            
+            reportContainer.innerHTML = `
+                <div class="report-header">
+                    <h2 class="report-title">Laporan Transaksi</h2>
+                    <p class="report-subtitle">Laporan Transaksi</p>
+                </div>
+                
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>No. Invoice</th>
+                            <th>Nama Pemesan</th>
+                            <th class="text-right">Down Payment (DP)</th>
+                            <th class="text-right">Pelunasan</th>
+                            <th class="text-right">Jumlah Total</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${allTransactions.map((transaction, index) => {
+                            const totalItems = calculateTotal(transaction.items);
+                            return `
+                                <tr>
+                                    <td class="text-center">${index + 1}</td>
+                                    <td>${transaction.invoiceNo}</td>
+                                    <td>${transaction.customerName}</td>
+                                    <td class="text-right">${formatRupiah(transaction.downPayment)}</td>
+                                    <td class="text-right">${transaction.fullPayment ? formatRupiah(transaction.fullPayment) : formatRupiah(0)}</td>
+                                    <td class="text-right">${formatRupiah(totalItems)}</td>
+                                    <td>
+                                        <div class="report-actions">
+                                            <button class="report-btn edit edit-report-btn" data-index="${index}">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="report-btn delete delete-report-btn" data-index="${index}">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: #f8f9fa; font-weight: 600;">
+                            <td colspan="3" class="text-right">TOTAL:</td>
+                            <td class="text-right">${formatRupiah(totalDP)}</td>
+                            <td class="text-right">${formatRupiah(totalPelunasan)}</td>
+                            <td class="text-right">${formatRupiah(totalJumlah)}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div style="margin-top: 25px; color: #666; font-size: 0.9rem;">
+                    <p><strong>Catatan:</strong> Tabel ini menampilkan semua transaksi yang pernah ada, termasuk yang sudah dihapus dari tampilan utama.</p>
+                    <p>Total transaksi: ${allTransactions.length} reservasi</p>
+                    <p>Data tersimpan secara otomatis di browser Anda.</p>
+                </div>
+            `;
+            
+            document.querySelectorAll('.edit-report-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    editReservationFromReport(index);
+                });
+            });
+            
+            document.querySelectorAll('.delete-report-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteReservationFromReport(index);
+                });
+            });
+        }
+
+        function editReservationFromReport(index) {
+            if (index >= 0 && index < allTransactions.length) {
+                const transaction = allTransactions[index];
+                const reservationIndex = reservations.findIndex(r => r.invoiceNo === transaction.invoiceNo);
+                
+                if (reservationIndex >= 0) {
+                    editReservation(reservationIndex);
+                } else {
+                    if (confirm('Reservasi ini telah dihapus dari tampilan utama. Apakah Anda ingin mengembalikannya dan mengedit?')) {
+                        reservations.push(transaction);
+                        sortReservations();
+                        editReservation(reservations.length - 1);
+                        showCardsView();
+                    }
+                }
+            }
+        }
+
+        function deleteReservationFromReport(index) {
+            if (index >= 0 && index < allTransactions.length) {
+                const transaction = allTransactions[index];
+                
+                if (confirm(`Apakah Anda yakin ingin menghapus PERMANEN reservasi ${transaction.invoiceNo} dari ${transaction.customerName}?\n\nTindakan ini tidak dapat dibatalkan!`)) {
+                    allTransactions.splice(index, 1);
+                    
+                    const reservationIndex = reservations.findIndex(r => r.invoiceNo === transaction.invoiceNo);
+                    if (reservationIndex >= 0) {
+                        reservations.splice(reservationIndex, 1);
+                    }
+                    
+                    saveToLocalStorage();
+                    showReport();
+                    
+                    if (currentView === 'cards') {
+                        renderReservations();
+                    }
+                }
+            }
+        }
+
+        function createPrintInvoice(reservation) {
+            const total = calculateTotal(reservation.items);
+            const shortage = calculateShortage(reservation.downPayment, reservation.fullPayment, total);
+            
+            return `
+                <div class="invoice-print">
+                    <div class="invoice-header">
+                        <div class="invoice-logo-container">
+                            <img class="invoice-logo" src="${getInvoiceLogo()}" alt="${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng Logo'}">
+                            <div class="invoice-title-container">
+                                <h2 class="invoice-title">INVOICE</h2>
+                                <p class="invoice-subtitle">${getInvoiceSubtitle()}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="invoice-header-info">
+                            <div class="invoice-number">${reservation.invoiceNo}</div>
+                            <div class="invoice-date">${formatDateShort(reservation.bookingDate)}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-info">
+                        <div class="invoice-info-section">
+                            <div class="invoice-info-title">Informasi Pemesan</div>
+                            <div class="invoice-info-item">
+                                <span class="invoice-info-label">Nama</span>
+                                <span class="invoice-info-value">${reservation.customerName}</span>
+                            </div>
+                            <div class="invoice-info-item">
+                                <span class="invoice-info-label">Alamat</span>
+                                <span class="invoice-info-value">${reservation.customerAddress}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Deskripsi</th>
+                                <th class="text-right">Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reservation.items.map((item, idx) => `
+                                <tr>
+                                    <td class="text-center">${idx + 1}</td>
+                                    <td>${item.description}</td>
+                                    <td class="text-right">${formatRupiah(item.price)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div class="invoice-total">
+                        <div class="total-background-logo">
+                            <img src="${getFooterLogo()}" alt="${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng Footer'}">
+                        </div>
+                        
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span>${formatRupiah(total)}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Down Payment (DP):</span>
+                            <span>${formatRupiah(reservation.downPayment)}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Pelunasan:</span>
+                            <span>${reservation.fullPayment ? formatRupiah(reservation.fullPayment) : formatRupiah(0)}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Kekurangan:</span>
+                            <span>${formatRupiah(shortage)}</span>
+                        </div>
+                        <div class="total-row total">
+                            <span>TOTAL:</span>
+                            <span>${formatRupiah(total)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-footer">
+                        <p>Terima kasih telah memesan paket wisata di ${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng'}.</p>
+                        <p>Invoice ini sah dan dapat digunakan sebagai bukti pembayaran.</p>
+                        <p style="margin-top: 5px; font-size: 9px;">Dicetak pada: ${formatDateShort(new Date().toISOString().split('T')[0])}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function downloadInvoiceAsImage() {
+            const invoiceActions = document.querySelector('.invoice-actions');
+            if (invoiceActions) invoiceActions.classList.add('hide-during-screenshot');
+
+            await new Promise(r => setTimeout(r, 200));
+
+            const captureTarget = invoiceContainer;
+
+            html2canvas(captureTarget, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                const link = document.createElement("a");
+                link.download = `invoice-${reservations[currentInvoiceIndex].invoiceNo}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                if (invoiceActions) invoiceActions.classList.remove('hide-during-screenshot');
+            });
+        }
+
+        function switchInvoiceTheme(theme) {
+            currentInvoiceTheme = theme;
+            saveToLocalStorage();
+            
+            if (currentView === 'invoice' && currentInvoiceIndex >= 0) {
+                showInvoice(currentInvoiceIndex);
+            }
+            
+            showThemeNotification(theme);
+        }
+
+        function showThemeNotification(theme) {
+            const themeName = theme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng';
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${theme === 'dayeng' ? '#ff6b6b' : '#90EE90'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 3000;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-${theme === 'dayeng' ? 'building' : 'mountain'}"></i>
+                <span>Tema invoice diubah ke: ${themeName}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function showInvoice(index) {
+            if (index < 0 || index >= reservations.length) return;
+            
+            const reservation = reservations[index];
+            currentInvoiceIndex = index;
+            currentView = 'invoice';
+            
+            const total = calculateTotal(reservation.items);
+            const shortage = calculateShortage(reservation.downPayment, reservation.fullPayment, total);
+            
+            cardsContainer.style.display = 'none';
+            mainHeader.style.display = 'none';
+            invoiceContainer.style.display = 'block';
+            reportContainer.style.display = 'none';
+            backButton.style.display = 'flex';
+            addButton.style.display = 'none';
+            reportButton.style.display = 'none';
+            
+            invoiceContainer.innerHTML = `
+                <div class="invoice-header">
+                    <div class="invoice-logo-container">
+                        <img class="invoice-logo" src="${getInvoiceLogo()}" alt="${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng Logo'}">
+                        <div class="invoice-title-container">
+                            <h2 class="invoice-title">INVOICE</h2>
+                            <p class="invoice-subtitle">${getInvoiceSubtitle()}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-header-info">
+                        <div class="invoice-number">${reservation.invoiceNo}</div>
+                        <div class="invoice-date">${formatDate(reservation.bookingDate)}</div>
+                    </div>
+                </div>
+                
+                <div class="invoice-info">
+                    <div class="invoice-info-section">
+                        <div class="invoice-info-title">Informasi Pemesan</div>
+                        <div class="invoice-info-item">
+                            <span class="invoice-info-label">Nama</span>
+                            <span class="invoice-info-value">${reservation.customerName}</span>
+                        </div>
+                        <div class="invoice-info-item">
+                            <span class="invoice-info-label">Alamat</span>
+                            <span class="invoice-info-value">${reservation.customerAddress}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Deskripsi</th>
+                            <th class="text-right">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${reservation.items.map((item, idx) => `
+                            <tr>
+                                <td class="text-center">${idx + 1}</td>
+                                <td>${item.description}</td>
+                                <td class="text-right">${formatRupiah(item.price)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                
+                <div class="invoice-total">
+                    <div class="total-background-logo">
+                        <img src="${getFooterLogo()}" alt="${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng Footer'}">
+                    </div>
+                    
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>${formatRupiah(total)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Down Payment (DP):</span>
+                        <span>${formatRupiah(reservation.downPayment)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Pelunasan:</span>
+                        <span>${reservation.fullPayment ? formatRupiah(reservation.fullPayment) : formatRupiah(0)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Kekurangan:</span>
+                        <span>${formatRupiah(shortage)}</span>
+                    </div>
+                    <div class="total-row total">
+                        <span>TOTAL:</span>
+                        <span>${formatRupiah(total)}</span>
+                    </div>
+                </div>
+                
+                <div class="invoice-footer">
+                    <p>Terima kasih telah memesan paket wisata di ${currentInvoiceTheme === 'dayeng' ? 'PT Dieng Dayeng Explorindo' : 'Wisata Dieng'}.</p>
+                    <p>Invoice ini sah dan dapat digunakan sebagai bukti pembayaran.</p>
+                </div>
+                
+                <div class="invoice-actions">
+                    <button class="invoice-btn print" id="printInvoice">
+                        <i class="fas fa-print"></i> Screenshot Invoice
+                    </button>
+                    <button class="invoice-btn image" id="saveAsImage">
+                        <i class="fas fa-image"></i> Simpan sebagai Gambar (Format Cetak)
+                    </button>
+                    ${currentInvoiceTheme === 'default' ? 
+                        `<button class="invoice-btn dayeng" id="switchToDayeng">
+                            <i class="fas fa-building"></i> Tampilkan Dayeng
+                        </button>` : 
+                        `<button class="invoice-btn default" id="switchToDefault">
+                            <i class="fas fa-mountain"></i> Tampilkan Wisata Dieng
+                        </button>`
+                    }
+                </div>
+            `;
+            
+            // 🔴 Di SINI tombol-tombol disembunyikan saat screenshot
+            document.getElementById('printInvoice').addEventListener('click', async function() {
+                const actions = document.querySelector('.invoice-actions');
+                if (actions) actions.classList.add('hide-during-screenshot');
+
+                try {
+                    // beri sedikit delay agar DOM sempat update
+                    await new Promise(r => setTimeout(r, 150));
+
+                    const element = invoiceContainer;
+                    const canvas = await html2canvas(element, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false
+                    });
+
+                    canvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `invoice-${reservation.invoiceNo}-screenshot.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                        alert('Screenshot invoice berhasil diunduh!');
+                        if (actions) actions.classList.remove('hide-during-screenshot');
+                    }, 'image/png', 0.9);
+                } catch (error) {
+                    console.error('Error mengambil screenshot invoice:', error);
+                    alert('Terjadi kesalahan saat mengambil screenshot invoice.');
+                    if (actions) actions.classList.remove('hide-during-screenshot');
+                }
+            });
+            
+            document.getElementById('saveAsImage').addEventListener('click', downloadInvoiceAsImage);
+            
+            if (currentInvoiceTheme === 'default') {
+                document.getElementById('switchToDayeng').addEventListener('click', function() {
+                    switchInvoiceTheme('dayeng');
+                });
+            } else {
+                document.getElementById('switchToDefault').addEventListener('click', function() {
+                    switchInvoiceTheme('default');
+                });
+            }
+        }
+
+        function showCardsView() {
+            currentView = 'cards';
+            cardsContainer.style.display = 'flex';
+            mainHeader.style.display = 'block';
+            invoiceContainer.style.display = 'none';
+            reportContainer.style.display = 'none';
+            backButton.style.display = 'none';
+            addButton.style.display = 'flex';
+            reportButton.style.display = 'flex';
+            renderReservations();
+        }
+
+        function deleteReservation(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus reservasi ini dari tampilan utama?\n\nData akan tetap tersimpan di laporan.')) {
+                reservations.splice(index, 1);
+                expandedCardIndex = -1;
+                saveToLocalStorage();
+                renderReservations();
+            }
+        }
+
+        function editReservation(index) {
+            const reservation = reservations[index];
+            reservationIndexInput.value = index;
+            modalTitle.textContent = 'Edit Reservasi';
+            
+            document.getElementById('invoiceNo').value = reservation.invoiceNo;
+            document.getElementById('customerName').value = reservation.customerName;
+            document.getElementById('customerAddress').value = reservation.customerAddress;
+            document.getElementById('tripDate').value = reservation.tripDate;
+            document.getElementById('recipientName').value = reservation.recipientName || 'Yefri Kurniawan';
+            document.getElementById('downPayment').value = formatNumberWithCommas(reservation.downPayment || 0);
+            
+            if (reservation.fullPayment) {
+                fullPaymentRadio.checked = true;
+                fullPaymentAmountInput.value = formatNumberWithCommas(reservation.fullPayment || 0);
+                fullPaymentGroup.style.display = 'block';
+            } else {
+                partialPaymentRadio.checked = true;
+                fullPaymentAmountInput.value = '';
+                fullPaymentGroup.style.display = 'none';
+            }
+            
+            document.getElementById('transferDate').value = reservation.transferDate;
+            document.getElementById('bankName').value = reservation.bankName;
+            document.getElementById('accountNumber').value = reservation.accountNumber;
+            
+            itemsContainer.innerHTML = '';
+            reservation.items.forEach((item) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item-inputs';
+                itemDiv.innerHTML = `
+                    <input type="text" class="form-input item-desc" placeholder="Deskripsi item" value="${item.description}">
+                    <input type="text" class="form-input item-price currency-input" placeholder="Harga" inputmode="numeric" value="${formatNumberWithCommas(item.price)}">
+                    <button type="button" class="remove-item-btn">Hapus</button>
+                `;
+                
+                itemsContainer.appendChild(itemDiv);
+                
+                itemDiv.querySelector('.remove-item-btn').addEventListener('click', function() {
+                    if (itemsContainer.children.length > 1) {
+                        itemDiv.remove();
+                    }
+                });
+            });
+            
+            addModal.style.display = 'flex';
+        }
+
+        function addItemInput() {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-inputs';
+            itemDiv.innerHTML = `
+                <input type="text" class="form-input item-desc" placeholder="Deskripsi item">
+                <input type="text" class="form-input item-price currency-input" placeholder="Harga" inputmode="numeric">
+                <button type="button" class="remove-item-btn">Hapus</button>
+            `;
+            
+            itemsContainer.appendChild(itemDiv);
+            
+            itemDiv.querySelector('.remove-item-btn').addEventListener('click', function() {
+                if (itemsContainer.children.length > 1) {
+                    itemDiv.remove();
+                }
+            });
+        }
+
+        function resetForm() {
+            reservationForm.reset();
+            reservationIndexInput.value = '-1';
+            modalTitle.textContent = 'Tambah Reservasi Baru';
+            
+            fullPaymentRadio.checked = true;
+            fullPaymentGroup.style.display = 'block';
+            
+            invoiceNoInput.value = generateInvoiceNo();
+            recipientNameInput.value = 'Yefri Kurniawan';
+            
+            bankNameSelect.value = '';
+            accountNumberInput.value = '';
+            
+            itemsContainer.innerHTML = '';
+            const initialItemDiv = document.createElement('div');
+            initialItemDiv.className = 'item-inputs';
+            initialItemDiv.innerHTML = `
+                <input type="text" class="form-input item-desc" placeholder="Deskripsi item">
+                <input type="text" class="form-input item-price currency-input" placeholder="Harga" inputmode="numeric">
+                <button type="button" class="remove-item-btn">Hapus</button>
+            `;
+            itemsContainer.appendChild(initialItemDiv);
+            
+            initialItemDiv.querySelector('.remove-item-btn').addEventListener('click', function() {
+                if (itemsContainer.children.length > 1) {
+                    initialItemDiv.remove();
+                }
+            });
+            
+            const tripDate = new Date();
+            tripDate.setDate(tripDate.getDate() + 7);
+            document.getElementById('tripDate').valueAsDate = tripDate;
+            
+            document.getElementById('transferDate').valueAsDate = new Date();
+            document.getElementById('downPayment').value = '';
+            document.getElementById('fullPaymentAmount').value = '';
+        }
+
+        addButton.addEventListener('click', () => {
+            resetForm();
+            addModal.style.display = 'flex';
+        });
+
+        reportButton.addEventListener('click', () => {
+            showReport();
+        });
+
+        closeModal.addEventListener('click', () => {
+            addModal.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            addModal.style.display = 'none';
+        });
+
+        backButton.addEventListener('click', showCardsView);
+
+        addItemBtn.addEventListener('click', addItemInput);
+
+        fullPaymentRadio.addEventListener('change', function() {
+            if (this.checked) {
+                fullPaymentGroup.style.display = 'block';
+            }
+        });
+
+        partialPaymentRadio.addEventListener('change', function() {
+            if (this.checked) {
+                fullPaymentGroup.style.display = 'none';
+            }
+        });
+
+        bankNameSelect.addEventListener('change', function() {
+            const selectedBank = this.value;
+            if (bankAccounts[selectedBank]) {
+                accountNumberInput.value = bankAccounts[selectedBank];
+            } else if (selectedBank === 'Lainnya') {
+                accountNumberInput.value = '';
+                accountNumberInput.placeholder = 'Masukkan nomor rekening';
+            } else {
+                accountNumberInput.value = '';
+            }
+        });
+
+        reservationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const invoiceNo = document.getElementById('invoiceNo').value;
+            const customerName = document.getElementById('customerName').value;
+            const customerAddress = document.getElementById('customerAddress').value;
+            const tripDate = document.getElementById('tripDate').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const downPayment = parseNumberFromFormatted(document.getElementById('downPayment').value);
+            const transferDate = document.getElementById('transferDate').value;
+            const bankName = document.getElementById('bankName').value;
+            const accountNumber = document.getElementById('accountNumber').value;
+            const index = parseInt(reservationIndexInput.value);
+            
+            let fullPayment = 0;
+            if (fullPaymentRadio.checked) {
+                fullPayment = parseNumberFromFormatted(document.getElementById('fullPaymentAmount').value);
+            }
+            
+            const items = [];
+            const itemInputs = document.querySelectorAll('.item-inputs');
+            
+            itemInputs.forEach(itemDiv => {
+                const desc = itemDiv.querySelector('.item-desc').value;
+                const price = parseNumberFromFormatted(itemDiv.querySelector('.item-price').value);
+                
+                if (desc && price > 0) {
+                    items.push({ description: desc, price: price });
+                }
+            });
+            
+            if (items.length === 0) {
+                alert('Harap tambahkan minimal satu item pemesanan');
+                return;
+            }
+            
+            if (!invoiceNo) {
+                alert('Harap masukkan nomor invoice');
+                return;
+            }
+            
+            const newReservation = {
+                invoiceNo: invoiceNo,
+                tripDate: tripDate,
+                bookingDate: new Date().toISOString().split('T')[0],
+                customerName: customerName,
+                customerAddress: customerAddress,
+                recipientName: recipientName,
+                items: items,
+                downPayment: downPayment,
+                fullPayment: fullPayment,
+                transferDate: transferDate,
+                bankName: bankName,
+                accountNumber: accountNumber
+            };
+            
+            if (index >= 0 && index < reservations.length) {
+                reservations[index] = newReservation;
+                
+                const transactionIndex = allTransactions.findIndex(t => t.invoiceNo === invoiceNo);
+                if (transactionIndex >= 0) {
+                    allTransactions[transactionIndex] = newReservation;
+                }
+            } else {
+                reservations.push(newReservation);
+                allTransactions.push(newReservation);
+            }
+            
+            saveToLocalStorage();
+            resetForm();
+            addModal.style.display = 'none';
+            expandedCardIndex = -1;
+            renderReservations();
+        });
+
+        function showSaveNotification() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #27ae60;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 3000;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>Data berhasil disimpan</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1);
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        const originalSaveToLocalStorage = saveToLocalStorage;
+        saveToLocalStorage = function() {
+            originalSaveToLocalStorage();
+            showSaveNotification();
+        };
+
+        function initializeApp() {
+            loadFromLocalStorage();
+            renderReservations();
+            setInterval(saveToLocalStorage, 90000);
+            window.addEventListener('beforeunload', saveToLocalStorage);
+            console.log('Aplikasi diinisialisasi dengan data dari Local Storage');
+            console.log('Reservasi aktif:', reservations.length);
+            console.log('Total transaksi:', allTransactions.length);
+            console.log('Invoice theme:', currentInvoiceTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
