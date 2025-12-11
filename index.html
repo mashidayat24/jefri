@@ -726,7 +726,7 @@
         .total-background {
             position: absolute;
             top: 60%;
-            left: 50%;
+            left: 80%;
             transform: translate(-50%, -50%);
             width: 40%;
             height: 40%;
@@ -1263,7 +1263,7 @@
             }
             
             .invoice-logo img {
-                max-height: 60px;
+                max-height: 30px;
                 margin-right: 10px;
             }
             
@@ -2211,7 +2211,7 @@
                     
                     <!-- Total dengan background logo -->
                     <div style="margin-top: 25px; padding: 25px; border-radius: 8px; font-size: 12px; position: relative; overflow: hidden; border: 2px solid #d4af37;">
-                        <div style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); width: 40%; height: 40%; background-image: url('https://iili.io/fRByp0F.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.3; z-index: 1; pointer-events: none;"></div>
+                        <div style="position: absolute; top: 60%; left: 80%; transform: translate(-50%, -50%); width: 40%; height: 40%; background-image: url('https://iili.io/fRByp0F.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.3; z-index: 1; pointer-events: none;"></div>
                         <div style="position: relative; z-index: 2;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                                 <span>Subtotal:</span>
@@ -2239,7 +2239,7 @@
                                 <div style="display: inline-block; padding: 8px 20px; border-radius: 20px; 
                                     background: ${paymentStatus.status === 'paid' ? '#e8f7ef' : paymentStatus.status === 'partial' ? '#fff8e1' : '#ffeaea'}; 
                                     color: ${paymentStatus.status === 'paid' ? '#27ae60' : paymentStatus.status === 'partial' ? '#f39c12' : '#e74c3c'}; 
-                                    font-size: 12px; font-weight: 500;">
+                                    font-size: 14px; font-weight: 500;">
                                     ${paymentStatus.text}
                                 </div>
                             </div>
@@ -2257,7 +2257,7 @@
                                 <div style="font-weight: 500;">${reservation.recipientName || 'Yefri Kurniawan'}</div>
                             </div>
                             <!-- Bank dan No. Rekening sejajar -->
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: flex-start; margin-bottom: 8px;">
                                 <div style="flex: 1;">
                                     <div style="color: #666; margin-bottom: 2px; font-weight: 500;">Bank:</div>
                                     <div style="font-weight: 500;">${reservation.bankName}</div>
@@ -2352,7 +2352,7 @@
                     
                     <!-- Total dengan background logo -->
                     <div style="margin-top: 20px; padding: 20px; border-radius: 6px; font-size: 10px; position: relative; overflow: hidden; border: 2px solid #d4af37;">
-                        <div style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); width: 40%; height: 40%; background-image: url('https://iili.io/fRByp0F.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.3; z-index: 1; pointer-events: none;"></div>
+                        <div style="position: absolute; top: 60%; left: 80%; transform: translate(-50%, -50%); width: 40%; height: 40%; background-image: url('https://iili.io/fRByp0F.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.3; z-index: 1; pointer-events: none;"></div>
                         <div style="position: relative; z-index: 2;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                                 <span>Subtotal:</span>
@@ -2398,7 +2398,7 @@
                                 <div style="font-weight: 500;">${reservation.recipientName || 'Yefri Kurniawan'}</div>
                             </div>
                             <!-- Bank dan No. Rekening sejajar -->
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <div style="display: flex; justify-content: flex-start; margin-bottom: 6px;">
                                 <div style="flex: 1;">
                                     <div style="color: #666; margin-bottom: 1px; font-weight: 500;">Bank:</div>
                                     <div style="font-weight: 500;">${reservation.bankName}</div>
